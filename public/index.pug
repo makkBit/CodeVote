@@ -1,0 +1,65 @@
+extends layout.pug
+
+append css
+	style
+		include css/main.css
+		
+
+block main
+	.container
+		.header
+			nav
+				ul.nav.nav-pills.pull-right(role="tablist")
+					li.active(role="presentation")
+						if state == "loggedOut"
+							//- a(href="/login") Login
+							a(href="/login" class="btn btn-primary btn-sm") Login
+					
+						if state == "loggedIn"
+							div(class="dropdown")
+								button(class="btn btn-primary btn-sm dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true") #{userName}
+									span(class="caret")
+								<ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
+									<li><a href="/newpoll">New Poll</a></li>
+									<li><a href="/profile">Profile</a></li>
+									<li role="separator" class="divider"></li>
+									<li><a href="/logout">Logout</a></li>
+								</ul>
+							</div>
+
+			a(href="/") 
+				h3.text-muted codeVote
+		.jumbotron
+			h1 codeVote 
+			h3.lead
+				| VOTING APP FOR ALL CODING RELATED THINGS
+			p.lead
+				| Below are the polls hosted.
+			p.lead
+				| Select a poll to see the results and vote, or sign-in to make a new poll.
+
+		//polls
+		- var data = JSON.parse(polls);
+		
+		- data.forEach( function(element, index) {
+		.container
+			.row
+				.col-xs-12
+					.panel.panel-default
+						.panel-heading.text-center
+							p(id="question") #{element.question}
+						.panel-body
+							- element.options.forEach( function(element, index){
+								p(id="options") #{element.name}
+							- })
+						// panel-body
+						.panel-footer.text-center
+								p(id="author") #{element.author}
+		- });
+
+
+		footer.footer
+			p made by mahak
+
+	script(src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js")
+	script(src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.0.0-alpha.5/js/bootstrap.min.js")

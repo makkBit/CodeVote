@@ -1,0 +1,53 @@
+extends layout.pug
+
+append css
+	style
+		include css/main.css
+		include css/form.css
+
+block main
+	//displays navbar
+	.container
+		.header
+			nav
+				ul.nav.nav-pills.pull-right(role="tablist")
+					li.active(role="presentation")
+
+						if state == "loggedOut"
+							a(href="/login" class="btn btn-primary btn-sm") Login
+					
+						if state == "loggedIn"
+							div(class="dropdown")
+								button(class="btn btn-primary btn-sm dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true") #{userName}
+									span(class="caret")
+								<ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
+									<li><a href="/newpoll">New Poll</a></li>
+									<li><a href="/profile">Profile</a></li>
+									<li role="separator" class="divider"></li>
+									<li><a href="/logout">Logout</a></li>
+								</ul>
+							</div>
+			a(href="/") 
+				h3.text-muted codeVote
+
+		.container
+			.container
+				.row
+					form.col-md-9.go-right(method="POST", action="/api/polls", role="form")
+						h2 Make a new poll!
+						| 					
+						.form-group
+							input#title.form-control(name="title", type="text", required="")
+							| 					
+							label(for="title") title
+						| 				
+						.form-group
+							textarea#options.form-control(name="options", required="")
+							| 					
+							label(for="options") Options(each separated with comma)
+						| 				
+						button.btn.btn-primary(type="submit") Make!
+
+
+	script(src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js")
+	script(src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.0.0-alpha.5/js/bootstrap.min.js")

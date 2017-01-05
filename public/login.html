@@ -3,25 +3,37 @@
 <html>
 
 	<head>
-		<title>Clementine.js - The elegant and lightweight full stack JavaScript boilerplate.</title>
+		<title>codeVote</title>
 		
-		<link href="/public/css/main.css" rel="stylesheet" type="text/css">
+		<link href="/public/css/bootstrap.min.css" rel="stylesheet" type="text/css">
+		<link href="/public/css/bootstrap-social.css" rel="stylesheet" type="text/css">
+		<link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
+		<style>
+			body{
+				padding-top: 20px;
+				padding-bottom: 20px;
+				background-color: #02AAB0 ;
+				background-color: -webkit-linear-gradient(to left, #02AAB0 , #00CDAC) !important;
+				background-color: linear-gradient(to left, #02AAB0 , #00CDAC) !important;
+			}
+			.mycontainer {
+				margin-top: 25vh;
+			}
+		</style>
 	</head>
 
 	<body>
-		<div class="container">	
-			<div class="login">
-				<img src="/public/img/clementine_150.png" />
-				<br />
-				<p class="clementine-text">Clementine.js</p>
-				<a href="/auth/github">
-					<div class="btn" id="login-btn">
-						<img src="/public/img/github_32px.png" alt="github logo" />
-						<p>LOGIN WITH GITHUB</p>
-					</div>
-				</a>
-			</div>
+		<div class="mycontainer text-center">
+			<a class="btn btn-lg btn-social btn-github" href="/auth/github">
+    			<span class="fa fa-github"></span> Sign in with Github
+  			</a>
+  			<br>
+  			<br>
+			<a class="btn btn-lg btn-social btn-twitter">
+    			<span class="fa fa-twitter"></span> Sign in with Twitter
+  			</a>
 		</div>
+		
 	</body>
 
 </html>
