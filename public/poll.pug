@@ -1,0 +1,128 @@
+extends layout.pug
+
+append css
+	style
+		include css/main.css
+		include css/pollSubmissionForm.css
+
+block main
+	//displays navbar
+	.container
+		.header
+			nav
+				ul.nav.nav-pills.pull-right(role="tablist")
+					li.active(role="presentation")
+
+						if state == "loggedOut"
+							a(href="/login" class="btn btn-primary btn-sm") Login
+					
+						if state == "loggedIn"
+								button(class="btn btn-primary btn-sm dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true") #{displayName}
+									span(class="caret")
+								<ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
+									<li><a href="/newpoll">New Poll</a></li>
+									<li><a href="/profile">Profile</a></li>
+									<li role="separator" class="divider"></li>
+									<li><a href="/logout">Logout</a></li>
+								</ul>
+	
+			a(href="/") 
+				h3.text-muted codeVote
+
+		-var data = JSON.parse(poll);
+
+		.wrapper
+			.row
+				.col-sm-6
+					// poll chart
+					canvas(id="myChart" width="10px" height="10px")
+				.col-sm-6
+					// poll vote form
+					form(action="/api/polls/poll/"+data._id, method="post", name="Login_Form")
+						h3.form-signin-heading #{data.question}
+						| 			  
+						hr.colorgraph
+						br
+						| 			  
+						| 			  
+						//dropdown options poll
+						.form-group
+							label(for="votefor") I'd like to vote for...: 
+
+							select.form-control(class="selectpicker" data-style="btn-info" name="selectedOption")
+
+								option(value="", disabled="disabled", selected="selected", hidden="") 	Choose an option...: 
+								- data.options.forEach( function(element, index){
+								option(value=element.name) #{element.name}
+								- }); 
+
+								//- .form-group
+								//- 	label(for="custom-option") Vote with my own option: 
+								//- 		input#custom-option(type="text")
+							br
+							button.btn.btn-lg.btn-primary.btn-block(name="Submit", type="Submit") Submit
+
+
+
+	script(src="/public/js/Chart.min.js")
+	script(src="/public/js/randomColor.js")
+	script.
+		var ctx = document.getElementById("myChart");
+
+		// escapes the quotes
+		var pollData =!{JSON.stringify(poll)};
+		// turns to object
+		var data = JSON.parse(pollData); 
+
+		console.log(data);
+
+		var dataLabels = data.options.map( function(elem){
+			return elem.name;
+		});
+		var dataData = data.options.map( function(elem){
+			return elem.count;
+		});
+
+		var myChart = new Chart(ctx, {
+		    type: 'pie',
+		    data: {
+		        labels: dataLabels,
+		        datasets: [{
+		            label: '# of Votes',
+		            data: dataData,
+		            backgroundColor: [
+		                'rgba(255, 99, 132, 0.2)',
+		                'rgba(54, 162, 235, 0.2)',
+		                'rgba(255, 206, 86, 0.2)',
+		                'rgba(75, 192, 192, 0.2)',
+		                'rgba(153, 102, 255, 0.2)',
+		                'rgba(255, 159, 64, 0.2)'
+		            ],
+		            borderColor: [
+		                'rgba(255,99,132,1)',
+		                'rgba(54, 162, 235, 1)',
+		                'rgba(255, 206, 86, 1)',
+		                'rgba(75, 192, 192, 1)',
+		                'rgba(153, 102, 255, 1)',
+		                'rgba(255, 159, 64, 1)'
+		            ],
+		            borderWidth: 1
+		        }]
+		    }
+		});
+
+
+	script(src="/public/js/jquery-2.2.2.js")
+	script(src="/public/js/bootstrap.min.js")
+
+
+
+
+
+
+
+
+
+
+
+

@@ -3,6 +3,10 @@ extends layout.pug
 append css
 	style
 		include css/main.css
+	style.
+		p{
+			font-size:15px;
+		}
 		
 
 block main
@@ -12,12 +16,10 @@ block main
 				ul.nav.nav-pills.pull-right(role="tablist")
 					li.active(role="presentation")
 						if state == "loggedOut"
-							//- a(href="/login") Login
-							a(href="/login" class="btn btn-primary btn-sm") Login
+							a(href="/login" class="btn btn-secondary btn-sm") Login
 					
 						if state == "loggedIn"
-							div(class="dropdown")
-								button(class="btn btn-primary btn-sm dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true") #{userName}
+								button(class="btn btn-primary btn-sm dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true") #{displayName} 
 									span(class="caret")
 								<ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
 									<li><a href="/newpoll">New Poll</a></li>
@@ -25,7 +27,6 @@ block main
 									<li role="separator" class="divider"></li>
 									<li><a href="/logout">Logout</a></li>
 								</ul>
-							</div>
 
 			a(href="/") 
 				h3.text-muted codeVote
@@ -39,27 +40,30 @@ block main
 				| Select a poll to see the results and vote, or sign-in to make a new poll.
 
 		//polls
+
 		- var data = JSON.parse(polls);
-		
-		- data.forEach( function(element, index) {
-		.container
-			.row
-				.col-xs-12
-					.panel.panel-default
-						.panel-heading.text-center
-							p(id="question") #{element.question}
-						.panel-body
-							- element.options.forEach( function(element, index){
-								p(id="options") #{element.name}
-							- })
-						// panel-body
-						.panel-footer.text-center
-								p(id="author") #{element.author}
-		- });
+		.row
+			- data.forEach( function(element, index) {
+				- if(index+1 % 2 !== 0)
+					a(href="/polls/"+element._id)
+						.col-sm-6
+							.tile.blue
+								h3.title #{element.question}
+									p
+
+									p #{element.author}, #{element.date}
+				- if(index+1 % 2 == 0)
+					a(href="/polls/"+element._id)
+						.col-sm-6
+							.tile.blue
+								h3.title #{element.question}
+									p #{element.author}
+									p #{element.date}
+			- });
 
 
 		footer.footer
 			p made by mahak
 
-	script(src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js")
-	script(src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.0.0-alpha.5/js/bootstrap.min.js")
+	script(src="/public/js/jquery-2.2.2.js")
+	script(src="/public/js/bootstrap.min.js")

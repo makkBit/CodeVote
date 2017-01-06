@@ -18,6 +18,7 @@ module.exports = function (app, passport) {
 	var pollHandler = new PollHandler();
 
 
+
 	/************ URIs **************
 	****************************************/
 	app.route('/')
@@ -32,7 +33,7 @@ module.exports = function (app, passport) {
 			  		res.render('index',
 			  			{
 			  				'state':'loggedIn', 
-			  				'userName':req.user.github.displayName,
+			  				'displayName':req.user.github.displayName,
 			  				'polls': body
 			  			}
 			  		);
@@ -56,16 +57,15 @@ module.exports = function (app, passport) {
 		.get(isLoggedIn, function (req, res) {
 
 			//retrieves the polls data from the api and renders index.pug
-			var apiUrl = 'http://localhost:8080/api/polls/'+req.user.github.id
+			console.log(req.user.github.id);
+			var apiUrl = 'http://localhost:8080/api/polls/'+req.user.github.id;
 			request(apiUrl, function (error, response, body) {
 
 			  if (!error && response.statusCode == 200) {
 			  	console.log(body);
 				res.render('profile', {
 					'state': 'loggedIn',
-					'id': req.user.github.id, 
 					'displayName': req.user.github.displayName,
-					'userName': req.user.github.username,
 					'polls': body
 				 });
 
@@ -99,6 +99,36 @@ module.exports = function (app, passport) {
 			  			});
 		});
 
+	app.route('/polls/:id')
+		.get(function(req, res){
+
+			var pollId= req.params.id;
+			var apiUrl = 'http://localhost:8080/api/polls/poll/'+pollId;
+
+			request(apiUrl, function (error, response, body) {
+
+				if(req.isAuthenticated()){
+					res.render('poll',
+						{
+							'state':'loggedIn', 
+							'displayName':req.user.github.displayName,
+							'poll': body
+						}
+					);
+				}
+				else{
+					res.render('poll',
+						{
+							'state':'loggedOut',
+							'poll': body
+						}
+					);
+				}
+
+			});
+
+		});
+
 
 
 
@@ -106,13 +136,19 @@ module.exports = function (app, passport) {
 
 	/************ API ENDPOINTS **************
 	*****************************************/
+	// returns all polls json of all users
 	app.route('/api/polls')
 		.get(pollHandler.getPolls)
 		.post(isLoggedIn, pollHandler.addPoll);
 
-	app.route('/api/polls/:user')
+	// returns all polls json of only a logged in user 
+	app.route('/api/polls/:userPolls')
 		.get(pollHandler.getUserPolls);
-			
+		
+	// returns a particular poll json
+	app.route('/api/polls/poll/:id')
+		.get(pollHandler.getPoll)
+		.post(pollHandler.updatePoll)
 
 
 

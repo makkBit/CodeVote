@@ -1,12 +1,3 @@
-body{
-				padding-top: 20px;
-				padding-bottom: 20px;
-				background-color: #02AAB0 ;
-				background-color: -webkit-linear-gradient(to left, #02AAB0 , #00CDAC) !important;
-				background-color: linear-gradient(to left, #02AAB0 , #00CDAC) !important;
-			}
-			@import url(http://fonts.googleapis.com/css?family=Open+Sans:400,600);
-
 			.form-control{
 			    background: transparent;
 			}

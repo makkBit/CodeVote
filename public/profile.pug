@@ -16,8 +16,7 @@ block main
 							a(href="/login" class="btn btn-primary btn-sm") Login
 					
 						if state == "loggedIn"
-							div(class="dropdown")
-								button(class="btn btn-primary btn-sm dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true") #{userName}
+								button(class="btn btn-primary btn-sm dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true") #{displayName}
 									span(class="caret")
 								<ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
 									<li><a href="/newpoll">New Poll</a></li>
@@ -25,51 +24,36 @@ block main
 									<li role="separator" class="divider"></li>
 									<li><a href="/logout">Logout</a></li>
 								</ul>
-							</div>
+	
 			a(href="/") 
 				h3.text-muted codeVote
 
-		//displays profile
-		.container
-			.row
-				.col-md-5.toppad.pull-right.col-md-offset-3
-				.col-xs-12.col-sm-12.col-md-6.col-lg-6.col-xs-offset-0.col-sm-offset-0.col-md-offset-3.col-lg-offset-3.toppad
-					.panel.panel-info
-						.panel-heading
-							h3.panel-title Profile
-				.panel-body
-					.row
-						.col-md-3.col-lg-3(align='center')   
-						.col-md-9.col-lg-9
-							table.table.table-user-information
-								tbody
-									tr
-										td Id: #{id}
-									tr
-										td Display Name: #{displayName}
-									tr
-									tr
-										td Username: #{userName}
+		//displays profile polls
+		h3 Name: #{displayName}
 
-									tr
-										td Your Polls:
-											- var data = JSON.parse(polls);
+		h3 Your Polls:
+		- var data = JSON.parse(polls);
+		- var data = JSON.parse(polls);
+		.row
+			- data.forEach( function(element, index) {
+				- if(index+1 % 2 !== 0)
+					a(href="/polls/"+element._id)
+						.col-sm-6
+							.tile.blue
+								h3.title #{element.question}
+									p
+
+									p #{element.author}, #{element.date}
+				- if(index+1 % 2 == 0)
+					a(href="/polls/"+element._id)
+						.col-sm-6
+							.tile.blue
+								h3.title #{element.question}
+									p #{element.author}
+									p #{element.date}
+			- });		
 								
-											- data.forEach( function(element, index) {
-											.container
-												.row
-													.col-xs-12
-														.panel.panel-default
-															.panel-heading.text-center
-																p(id="question") #{element.question}
-															.panel-body
-																- element.options.forEach( function(element, index){
-																	p(id="options") #{element.name}
-																- })
-															// panel-body
-															.panel-footer.text-center
-																	p(id="author") #{element.author}
-											- });
+											
 	
-	script(src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js")
-	script(src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.0.0-alpha.5/js/bootstrap.min.js")
+	script(src="/public/js/jquery-2.2.2.js")
+	script(src="/public/js/bootstrap.min.js")
