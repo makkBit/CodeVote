@@ -4,6 +4,10 @@ append css
 	style
 		include css/main.css
 		include css/pollSubmissionForm.css
+	style.
+		#del{
+			margin-top:18px;
+		}
 
 block main
 	//displays navbar
@@ -36,7 +40,12 @@ block main
 				.col-sm-6
 					// poll chart
 					canvas(id="myChart" width="10px" height="10px")
+					//delete poll
+					br
+					
+
 				.col-sm-6
+
 					// poll vote form
 					form(action="/api/polls/poll/"+data._id, method="post", name="Login_Form")
 						h3.form-signin-heading #{data.question}
@@ -45,6 +54,7 @@ block main
 						br
 						| 			  
 						| 			  
+
 						//dropdown options poll
 						.form-group
 							label(for="votefor") I'd like to vote for...: 
@@ -56,25 +66,51 @@ block main
 								option(value=element.name) #{element.name}
 								- }); 
 
-								//- .form-group
-								//- 	label(for="custom-option") Vote with my own option: 
-								//- 		input#custom-option(type="text")
+							if state== "loggedIn"
+								.form-group
+									label(for="customOption") Vote with my own option: 
+										input#customOption(type="text" name="customOption")
 							br
 							button.btn.btn-lg.btn-primary.btn-block(name="Submit", type="Submit") Submit
+							br
 
+							//twitter
+							script(async="", src="//platform.twitter.com/widgets.js", charset="utf-8")
+							a(class="btn btn-primary btn-lg btn-block" href="https://twitter.com/intent/tweet?text="+data.question+"%20via%20codeVote%20cmngsn.com", data-show-count="false" data-size="large" data-hashtags="codeVote") Share on Twitter
+
+							if state== "loggedIn"
+								button.btn.btn-lg.btn-danger.btn-block(name="delete" id="del") Delete
+
+					
 
 
 	script(src="/public/js/Chart.min.js")
 	script(src="/public/js/randomColor.js")
+	script(src="/public/js/jquery-2.2.2.js")
+	script(src="/public/js/bootstrap.min.js")
 	script.
-		var ctx = document.getElementById("myChart");
 
 		// escapes the quotes
 		var pollData =!{JSON.stringify(poll)};
 		// turns to object
 		var data = JSON.parse(pollData); 
 
-		console.log(data);
+
+		//ajax del req when del button is clicked
+		$('#del').click(function(){
+			$.ajax({
+			    url: '/api/polls/poll/'+data._id,
+			    type: 'DELETE',
+			    success: function(result) {
+			        window.location = "/profile";
+			    }
+			});
+		});
+		
+
+
+		//charsjs
+		var ctx = document.getElementById("myChart");
 
 		var dataLabels = data.options.map( function(elem){
 			return elem.name;
@@ -110,13 +146,6 @@ block main
 		        }]
 		    }
 		});
-
-
-	script(src="/public/js/jquery-2.2.2.js")
-	script(src="/public/js/bootstrap.min.js")
-
-
-
 
 
 
