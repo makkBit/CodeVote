@@ -140,6 +140,7 @@ module.exports = function (app, passport) {
 	app.route('/api/polls')
 		.get(pollHandler.getPolls)
 		.post(isLoggedIn, pollHandler.addPoll);
+		
 
 	// returns all polls json of only a logged in user 
 	app.route('/api/polls/:userPolls')
@@ -149,7 +150,7 @@ module.exports = function (app, passport) {
 	app.route('/api/polls/poll/:id')
 		.get(pollHandler.getPoll)
 		.post(pollHandler.updatePoll)
-
+		.delete(isLoggedIn, pollHandler.deletePoll);
 
 
 
