@@ -3,6 +3,10 @@ extends layout.pug
 append css
 	style
 		include css/main.css
+	style.
+		p{
+			font-size:15px;
+		}
 
 block main
 	//displays navbar
@@ -33,7 +37,6 @@ block main
 
 		h3 Your Polls:
 		- var data = JSON.parse(polls);
-		- var data = JSON.parse(polls);
 		.row
 			- data.forEach( function(element, index) {
 				- if(index+1 % 2 !== 0)
@@ -51,9 +54,8 @@ block main
 								h3.title #{element.question}
 									p #{element.author}
 									p #{element.date}
-			- });		
-								
-											
+			- });	
+					
 	
 	script(src="/public/js/jquery-2.2.2.js")
 	script(src="/public/js/bootstrap.min.js")
