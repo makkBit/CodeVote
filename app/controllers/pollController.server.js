@@ -69,20 +69,52 @@ var PollHandler = function(){
 
 	};
 
+
 	this.updatePoll = function(req, res){
 
-		console.log(req.body.selectedOption);
+		console.log(req.body.customOption);
 
-		Poll.update( { '_id':req.params.id, 'options.name': req.body.selectedOption },
-				{ 
-					$inc: { 'options.$.count': 1 } 
+		if(req.body.customOption){
+
+			Poll.update( { '_id':req.params.id },
+				{
+					$push: {
+						'options': {name: req.body.customOption, count:1} 
+					} 
 				}
-			)
-		.exec(function(err, result){
-			if(err) throw err;
-			res.redirect('/polls/'+req.params);
-		});
+			 )
+			.exec(function(err, result){
+				if(err){
+					throw err;
+				}
+				res.redirect('/polls/'+req.params.id);
+			});
 
+		}
+
+		else{
+			Poll.update( { '_id':req.params.id, 'options.name': req.body.selectedOption },
+					{ 
+						$inc: { 'options.$.count': 1 } 
+					}
+				)
+			.exec(function(err, result){
+				if(err) throw err;
+				res.redirect('/polls/'+req.params.id);
+			});
+		}
+		
+
+	};
+
+
+	this.deletePoll = function(req, res){
+		Poll.remove( {_id: req.params.id}, function (err, result) {
+			if(err)
+				throw err;
+			else
+				res.send("deleted.");
+		});
 	};
 
 
