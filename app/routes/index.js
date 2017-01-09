@@ -58,9 +58,9 @@ module.exports = function (app, passport) {
 
 			//retrieves the polls data from the api and renders index.pug
 			if(req.user.github.id)
-			    var apiUrl = process.env.APP_URL+'/api/polls/'+ req.user.github.id;
+			    var apiUrl = process.env.APP_URL+'api/polls/'+ req.user.github.id;
 			if(req.user.twitter.id)
-				var apiUrl = process.env.APP_URL+'/api/polls/'+ req.user.twitter.id;
+				var apiUrl = process.env.APP_URL+'api/polls/'+ req.user.twitter.id;
 
 			request(apiUrl, function (error, response, body) {
 
@@ -111,7 +111,8 @@ module.exports = function (app, passport) {
 		.get(function(req, res){
 
 			var pollId= req.params.id;
-			var apiUrl = 'http://localhost:8080/api/polls/poll/'+pollId;
+			// var apiUrl = 'http://localhost:8080/api/polls/poll/'+pollId;
+			var apiUrl = process.env.APP_URL+'api/polls/poll'+pollId;
 
 			request(apiUrl, function (error, response, body) {
 
