@@ -33,6 +33,9 @@ block main
 			a(href="/") 
 				h3.text-muted codeVote
 
+		
+		span.label.label-danger(class="text-center block-center center-block") #{message}
+
 		if poll !== []
 			-var data = JSON.parse(poll);
 
