@@ -7,8 +7,12 @@ var passport = require('passport');
 var session = require('express-session');
 var pug = require('pug');
 var bodyParser = require('body-parser');
+var favicon = require('serve-favicon');
 
 var app = express();
+
+app.use(favicon(__dirname + '/public/img/favicon.ico'));
+
 require('dotenv').load();
 require('./app/config/passport')(passport);
 
