@@ -115,6 +115,7 @@ module.exports = function (app, passport) {
 			var apiUrl = process.env.APP_URL+'api/polls/poll/'+pollId;
 
 			request(apiUrl, function (error, response, body) {
+				console.log('body: '+body);
 
 				if(req.isAuthenticated()){
 					
