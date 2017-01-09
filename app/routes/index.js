@@ -112,7 +112,7 @@ module.exports = function (app, passport) {
 
 			var pollId= req.params.id;
 			// var apiUrl = 'http://localhost:8080/api/polls/poll/'+pollId;
-			var apiUrl = process.env.APP_URL+'api/polls/poll'+pollId;
+			var apiUrl = process.env.APP_URL+'api/polls/poll/'+pollId;
 
 			request(apiUrl, function (error, response, body) {
 
