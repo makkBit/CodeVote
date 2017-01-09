@@ -8,6 +8,7 @@ var session = require('express-session');
 var pug = require('pug');
 var bodyParser = require('body-parser');
 var favicon = require('serve-favicon');
+var flash = require('connect-flash');
 
 var app = express();
 
@@ -34,6 +35,9 @@ app.use(session({
 
 app.use(passport.initialize());
 app.use(passport.session());
+
+// app.use(express.cookieParser('keyboard cat'));
+app.use(flash());
 
 // parse application/x-www-form-urlencoded 
 app.use(bodyParser.urlencoded({ extended: false }))
