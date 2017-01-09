@@ -41,14 +41,13 @@ block main
 
 		.wrapper
 			.row
-				.col-sm-6
+				.col-sm-6.col-xs-12
 					// poll chart
 					canvas(id="myChart" width="10px" height="10px")
-					//delete poll
 					br
 					
 
-				.col-sm-6
+				.col-sm-6.col-xs-12
 
 					// poll vote form
 					form(action="/api/polls/poll/"+data._id, method="post", name="Login_Form")
