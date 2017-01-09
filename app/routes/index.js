@@ -114,8 +114,7 @@ module.exports = function (app, passport) {
 			var apiUrl = process.env.APP_URL+'api/polls/poll/'+pollId;
 
 			request(apiUrl, function (error, response, body) {
-				console.log('body: '+body);
-
+	
 				if(req.isAuthenticated()){
 					
 					var userId = req.user.github.id || req.user.twitter.id;
@@ -132,7 +131,8 @@ module.exports = function (app, passport) {
 							'displayName':req.user.github.displayName || req.user.twitter.displayName,
 							'poll': body,
 							'pollOwnerView': isPollOwner,
-							'fullURL': req.protocol + '://' + req.get('host') + req.originalUrl
+							'fullURL': req.protocol + '://' + req.get('host') + req.originalUrl,
+							'message': req.flash('alert') 
 						}
 					);
 				}
@@ -142,7 +142,8 @@ module.exports = function (app, passport) {
 						{
 							'state':'loggedOut',
 							'poll': body,
-							'fullURL': req.protocol + '://' + req.get('host') + req.originalUrl
+							'fullURL': req.protocol + '://' + req.get('host') + req.originalUrl,
+							'message': req.flash('alert') 
 						}
 					);
 				}

@@ -12,7 +12,8 @@ var Poll = new Schema({
 		name: String,
 		count: Number
 	}],
-	votes: Number
+	votes: Number,
+	ipVoted: [String]
 });
 
 module.exports = mongoose.model('Poll', Poll);

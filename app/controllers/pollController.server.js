@@ -68,6 +68,7 @@ var PollHandler = function(){
 
 	this.updatePoll = function(req, res){
 
+		//to add a new custom option to poll
 		if(req.body.customOption){
 
 			Poll.update( { '_id':req.params.id },
@@ -87,14 +88,45 @@ var PollHandler = function(){
 		}
 
 		else{
-			Poll.update( { '_id':req.params.id, 'options.name': req.body.selectedOption },
-					{ 
-						$inc: { 'options.$.count': 1 } 
-					}
-				)
-			.exec(function(err, result){
+
+			
+			var clientIp = req.ip;
+			var ipResult = clientIp.slice(clientIp.indexOf('1'), clientIp.length);
+
+			Poll.findOne({'_id': req.params.id}, function(err, result){
 				if(err) throw err;
-				res.redirect('/polls/'+req.params.id);
+
+				function updateCountAndInsertIp(){
+					Poll.update( { '_id':req.params.id, 'options.name': req.body.selectedOption },
+							{ 
+								$inc: { 'options.$.count': 1 },
+								$push: {
+									'ipVoted': ipResult 
+								} 
+							}
+						)
+					.exec(function(err, result){
+						if(err) throw err;
+						res.redirect('/polls/'+req.params.id);
+						return;
+					});
+				}
+
+				if( result.ipVoted.length === 0){
+					updateCountAndInsertIp();
+				}
+
+				//checks if user has  already voted
+				for(var i=0; i<result.ipVoted.length; i++){
+					// if yes alert him same
+					if( result.ipVoted[i] === ipResult ){
+						req.flash('alert', 'Opps! You can vote only once a poll.');
+						res.redirect('/polls/'+req.params.id);
+						return;
+					}
+				}
+				// if no, update the vote and store the users ip
+				updateCountAndInsertIp();
 			});
 		}
 		
