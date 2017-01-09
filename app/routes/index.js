@@ -2,7 +2,6 @@
 
 var path = process.cwd();
 var PollHandler = require(path + '/app/controllers/pollController.server.js');
-var http = require('http');
 var request = require('request');
 
 module.exports = function (app, passport) {
@@ -25,7 +24,7 @@ module.exports = function (app, passport) {
 		.get(function (req, res) {
 			
 			//retrieves the polls data from the api and renders index.pug
-			request('http://localhost:8080/api/polls', function (error, response, body) {
+			request(process.env.APP_URL+'api/polls', function (error, response, body) {
 			  if (!error && response.statusCode == 200) {
 			    
 			  	if(req.isAuthenticated()){
