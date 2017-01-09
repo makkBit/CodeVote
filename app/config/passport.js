@@ -63,24 +63,22 @@ module.exports = function (passport) {
 		      if (err){
 		      	return done(err);
 		      }
-		      if (user){				
+		      if (user){		
+		        console.log('user already in db');		
 		      	return done(null, user)
 		      }
 		      else{
 		      	var newUser = new User();
-		      	var profileRaw = JSON.parse(profile._raw);
 
 		      	newUser.twitter.id = profile.id;
 		      	newUser.twitter.displayName = profile.displayName;
 		      	newUser.twitter.username = profile.username;
-		      	newUser.twitter.description = profileRaw.description;
-		      	newUser.twitter.location = profileRaw.location;
-		      	console.log(newUser);
 
 		      	newUser.save(function (err){
 		      		if(err){
 		      			throw err;
 		      		}
+		      		console.log('user new in db');
 		      		return done(null, newUser);
 		      	});
 

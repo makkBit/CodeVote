@@ -45,12 +45,9 @@ var PollHandler = function(){
     	newPoll.date = months[date.getMonth()]+" "+date.getDate()+", "+
     			  date.getFullYear();
 
-		newPoll.authorId = req.user.github.id;
-		newPoll.author = req.user.github.displayName;
+		newPoll.authorId = req.user.github.id || req.user.twitter.id;
+		newPoll.author = req.user.github.displayName || req.user.twitter.displayName;
 		newPoll.question = req.body.title;
-
-
-
 		
 
 		var optionsArray = (req.body.options).split(',');

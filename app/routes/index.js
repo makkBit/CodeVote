@@ -33,7 +33,7 @@ module.exports = function (app, passport) {
 			  		res.render('index',
 			  			{
 			  				'state':'loggedIn', 
-			  				'displayName':req.user.github.displayName,
+			  				'displayName':req.user.github.displayName || req.user.twitter.displayName,
 			  				'polls': body
 			  			}
 			  		);
@@ -57,16 +57,24 @@ module.exports = function (app, passport) {
 		.get(isLoggedIn, function (req, res) {
 
 			//retrieves the polls data from the api and renders index.pug
-			console.log(req.user.github.id);
-			var apiUrl = 'http://localhost:8080/api/polls/'+req.user.github.id;
+			if(req.user.github.id)
+				var apiUrl = 'http://localhost:8080/api/polls/'+req.user.github.id;
+			if(req.user.twitter.id)
+				var apiUrl = 'http://localhost:8080/api/polls/'+req.user.twitter.id;
+
 			request(apiUrl, function (error, response, body) {
+
+			  var isEmpty = false;
+			  if(body === '[]')
+			  	isEmpty = true;
 
 			  if (!error && response.statusCode == 200) {
 			  	console.log(body);
 				res.render('profile', {
 					'state': 'loggedIn',
-					'displayName': req.user.github.displayName,
-					'polls': body
+					'displayName': req.user.github.displayName || req.user.twitter.displayName,
+					'polls': body,
+					'isEmpty': isEmpty
 				 });
 
 			  }
@@ -95,7 +103,7 @@ module.exports = function (app, passport) {
 			res.render('newpoll',
 			  			{
 			  				'state':'loggedIn', 
-			  				'userName':req.user.github.displayName,
+			  				'userName':req.user.github.displayName || req.user.twitter.displayName,
 			  			});
 		});
 
@@ -108,19 +116,32 @@ module.exports = function (app, passport) {
 			request(apiUrl, function (error, response, body) {
 
 				if(req.isAuthenticated()){
+					
+					var userId = req.user.github.id || req.user.twitter.id;
+					//parses the poll api data & matches the poll id with req id
+					var pollData = JSON.parse(body);
+					var isPollOwner = false;
+					if(pollData.authorId === userId){
+						isPollOwner= true;
+					}
+					
 					res.render('poll',
 						{
-							'state':'loggedIn', 
-							'displayName':req.user.github.displayName,
-							'poll': body
+							'state':'loggedIn',
+							'displayName':req.user.github.displayName || req.user.twitter.displayName,
+							'poll': body,
+							'pollOwnerView': isPollOwner,
+							'fullURL': req.protocol + '://' + req.get('host') + req.originalUrl
 						}
 					);
 				}
+
 				else{
 					res.render('poll',
 						{
 							'state':'loggedOut',
-							'poll': body
+							'poll': body,
+							'fullURL': req.protocol + '://' + req.get('host') + req.originalUrl
 						}
 					);
 				}
