@@ -33,7 +33,8 @@ block main
 			a(href="/") 
 				h3.text-muted codeVote
 
-		-var data = JSON.parse(poll);
+		if poll !== []
+			-var data = JSON.parse(poll);
 
 		.wrapper
 			.row
@@ -66,7 +67,7 @@ block main
 								option(value=element.name) #{element.name}
 								- }); 
 
-							if state== "loggedIn"
+							if pollOwnerView
 								.form-group
 									label(for="customOption") Vote with my own option: 
 										input#customOption(type="text" name="customOption")
@@ -74,11 +75,12 @@ block main
 							button.btn.btn-lg.btn-primary.btn-block(name="Submit", type="Submit") Submit
 							br
 
-							//twitter
+							// twitter share button
 							script(async="", src="//platform.twitter.com/widgets.js", charset="utf-8")
-							a(class="btn btn-primary btn-lg btn-block" href="https://twitter.com/intent/tweet?text="+data.question+"%20via%20codeVote%20cmngsn.com", data-show-count="false" data-size="large" data-hashtags="codeVote") Share on Twitter
+							a(class="btn btn-primary btn-lg btn-block" href="https://twitter.com/intent/tweet?text="+data.question+"%20via%20%23codeVote%20VoteNow%3A%20"+fullURL, data-show-count="false" data-size="large" data-hashtags="codeVote") Share on Twitter
 
-							if state== "loggedIn"
+							// delete button
+							if pollOwnerView
 								button.btn.btn-lg.btn-danger.btn-block(name="delete" id="del") Delete
 
 					

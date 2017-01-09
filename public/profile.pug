@@ -36,6 +36,12 @@ block main
 		h3 Name: #{displayName}
 
 		h3 Your Polls:
+		if isEmpty
+			.panel.panel-info
+				.panel-heading
+					h3.panel-title No polls found for your profile
+				.panel-body
+					| please try creating a new poll
 		- var data = JSON.parse(polls);
 		.row
 			- data.forEach( function(element, index) {
