@@ -69,7 +69,6 @@ module.exports = function (app, passport) {
 			  	isEmpty = true;
 
 			  if (!error && response.statusCode == 200) {
-			  	console.log(body);
 				res.render('profile', {
 					'state': 'loggedIn',
 					'displayName': req.user.github.displayName || req.user.twitter.displayName,

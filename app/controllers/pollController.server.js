@@ -60,7 +60,6 @@ var PollHandler = function(){
 
 		newPoll.save(function(err){
 			if(err) throw err;
-			console.log("newPoll is: "+newPoll);
 			res.redirect('/profile');
 		});
 
@@ -68,8 +67,6 @@ var PollHandler = function(){
 
 
 	this.updatePoll = function(req, res){
-
-		console.log(req.body.customOption);
 
 		if(req.body.customOption){
 
