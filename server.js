@@ -14,6 +14,8 @@ var app = express();
 
 app.use(favicon(__dirname + '/public/img/favicon.ico'));
 
+app.enable('trust proxy');
+
 require('dotenv').load({silent: true});
 require('./app/config/passport')(passport);
 
