@@ -13,7 +13,7 @@ var app = express();
 
 app.use(favicon(__dirname + '/public/img/favicon.ico'));
 
-require('dotenv').load();
+require('dotenv').load({silent: true});
 require('./app/config/passport')(passport);
 
 app.set('views', './public');
