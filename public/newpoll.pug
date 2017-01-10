@@ -29,22 +29,21 @@ block main
 				h3.text-muted codeVote
 
 		.container
-			.container
-				.row
-					form.col-md-9.go-right(method="POST", action="/api/polls", role="form")
-						h2 Make a new poll!
+			.row
+				form.col-md-9.go-right(method="POST", action="/api/polls", role="form")
+					h2 Make a new poll!
+					| 					
+					.form-group
+						input#title.form-control(name="title", type="text", required="")
 						| 					
-						.form-group
-							input#title.form-control(name="title", type="text", required="")
-							| 					
-							label(for="title") title
-						| 				
-						.form-group
-							textarea#options.form-control(name="options", required="")
-							| 					
-							label(for="options") Options(each separated with comma)
-						| 				
-						button.btn.btn-primary(type="submit") Make!
+						label(for="title") title
+					| 				
+					.form-group
+						textarea#options.form-control(name="options", required="")
+						| 					
+						label(for="options") Options(each separated with comma)
+					| 				
+					button.btn.btn-primary(type="submit") Make!
 
 
 	script(src="/public/js/jquery-2.2.2.js")

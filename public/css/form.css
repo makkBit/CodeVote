@@ -4,6 +4,7 @@
 			form {
 				width: 320px;
 				margin: 20px;
+				min-width: 600px !important;
 			}
 			form > div {
 				position: relative;
@@ -73,6 +74,6 @@
 			form.go-right input:focus + label, form.go-right textarea:focus + label {
 				right: 0;
 				margin-right: 0;
-				width: 40%;
+				width: 20%;
 				padding-top: 5px;
 			}
