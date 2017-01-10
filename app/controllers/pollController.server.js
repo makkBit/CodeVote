@@ -67,7 +67,7 @@ var PollHandler = function(){
 
 
 	this.updatePoll = function(req, res){
-
+		console.log('updating poll');
 		//to add a new custom option to poll
 		if(req.body.customOption){
 
