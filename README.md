@@ -3,9 +3,9 @@
 ## Overview
 A full stack javascript app that fulfills the given user stories.
 <br>
-Live: https://
+Live: https://codevote.herokuapp.com/
 <br>
-Made using nodejs, expressjs, mongoose, passportjs.
+Made using nodejs, expressjs, mongoose, passportjs, pugjs, chartjs
 
 
 ### User Stories
